@@ -7,7 +7,9 @@
 
 ## Services
 
-We provide client side ui at mutaframe.com and also several other APIs. When you use our apis, you base uri is always https://deogen2.mutaframe.com/. You need to make a \[GET\] request to receive a response. 
+We provide client side ui at mutaframe.com and also several other APIs with proper `Access-Control-Allow-Origin: *` headers . When you use our apis, your base uri is always https://deogen2.mutaframe.com/. You need to make a \[GET\] request to the appropriate path to receive a response. 
+
+General rate limiting rules apply, you can make up to ~45 calls per minute, which after you'll start receiving `403`. After a minute, you should be good to go again.  
 
 ### tools/pseudo?query=
 
@@ -18,15 +20,26 @@ GET https://deogen2.mutaframe.com/tools/pseudo?query="breast cancer 2"
 
 //{"mrna":"NM_000059.3","protein":"NP_000050.2","uniprot":"P51587","name":"BRCA2 DNA repair associated","symbol":"BRCA2"}
 
+```
+[**[ Try it ]**](https://deogen2.mutaframe.com/tools/pseudo?query=%22breast%20cancer%202%22)
+
+```
 GET https://deogen2.mutaframe.com/tools/pseudo?query=TUBA1A
 
 //{"mrna":"NM_001270399.1","protein":"NP_001257328.1","uniprot":"Q71U36","name":"tubulin alpha 1a","symbol":"TUBA1A"}
+
+```
+[**[ Try it ]**](https://deogen2.mutaframe.com/tools/pseudo?query=TUBA1A)
+
+```
 
 GET https://deogen2.mutaframe.com/tools/pseudo?query=NM_001130916.2
 
 //{"mrna":"NM_001130916.3","protein":"NP_001124388.1","uniprot":"P36897","name":"transforming growth factor beta receptor 1","symbol":"TGFBR1"}
  
 ```
+[**[ Try it ]**](https://deogen2.mutaframe.com/tools/pseudo?query=NM_001130916.2)
+
 ### tools/seqfetch?accession=
 
 Provide an accession number and receive back the sequences if the latest refseq version exists. You can provide additional parameters, namely "fields", "response" and "download"
@@ -35,28 +48,44 @@ Provide an accession number and receive back the sequences if the latest refseq 
 GET https://deogen2.mutaframe.com/tools/seqfetch?accession=NM_001130916.2&fields=mrna,protein&response=json
 
 //{"protein":"MEAAVAAP...","mrna":"aaagggccggagcga..."}
+```
+[**[ Try it ]**](https://deogen2.mutaframe.com/tools/seqfetch?accession=NM_001130916.2&fields=mrna,protein&response=json)
+
+```
 
 GET https://deogen2.mutaframe.com/tools/seqfetch?accession=NM_001130916.2&fields=protein&response=json
 
 //{"protein":"MEAAVAAP..."}
 
+```
+[**[ Try it ]**](https://deogen2.mutaframe.com/tools/seqfetch?accession=NM_001130916.2&fields=protein&response=json)
+
+
+```
 GET https://deogen2.mutaframe.com/tools/seqfetch?accession=NM_001130916.2&fields=protein&response=fasta
 
 //> NM_001130916.2 protein
 MEAAVAAPRPRLL...
+
 ```
+[**[ Try it ]**](https://deogen2.mutaframe.com/tools/seqfetch?accession=NM_001130916.2&fields=protein&response=fasta)
 
 You can trigger a browser side download as well:
 
 ```
 GET https://deogen2.mutaframe.com/tools/seqfetch?accession=NM_001130916.2&fields=protein&response=json&download=true
 ```
+[**[ Try it ]**](https://deogen2.mutaframe.com/tools/seqfetch?accession=NM_001130916.2&fields=protein&response=json&download=true)
+
 
 ### tools/orf
 
 ORF (Open Reading Frame) is a sequence finder that relies on "pseudo" and "seqfetch" services. If you want to use the automated retrieved leave the mrna or protein section empty and type your keyword into the other.
 
 Alternatively you can copy paste mrna and protein sequences on their respective lines and click "ANALYZE" to check if the given protein sequence is found within one of the six possible frames of the given mrna.
+
+[**[ Try ORF ]**](https://deogen2.mutaframe.com/tools/orf)
+
 
 You can add as many sequences as you like, they will be justified to the left for comparison:
 
@@ -87,6 +116,6 @@ You can add as many sequences as you like, they will be justified to the left fo
 ## Supporting 
 
 You can support Mutaframe by:
--  following at [twitter](https://twitter.com/MutaFrame)
-- creating an account at mutaframe.com
+-  following at [<img src="https://deogen2.mutaframe.com/icons/twitter.png" width="70" height="50" align="center">](https://twitter.com/MutaFrame)
+- creating an account at [**MutaFrame**](https://deogen2.mutaframe.com/)
 - helping us create better software by submitting bug reports or feature requests
