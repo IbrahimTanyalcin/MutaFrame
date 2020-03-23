@@ -13,36 +13,67 @@ General rate limiting rules apply, you can make up to ~45 calls per minute, whic
 
 ### tools/pseudo?query=
 
-You can search for a gene symbol, accession or a phrase enclosed between quotes, you receive a json response of the information available. MutaFrame only stores refseq sequences, so the closest refseq match to your query is retrieved. etc:
+You can search for a gene symbol, accession or a phrase enclosed between quotes, you receive a json response of the information available.
+
+#### Query Parameters
+
+|field | desc | default | required |
+| --- | ---| --- | --- |
+|query | alpha numeric | NA | required
+|species | common name or taxonomy id | human | optional
+|isoforms | retrieve all isoforms | false | optional
+|refseq | retrieve only refseq | false | optional
+
+#### Return Value
+
+Array
+
+#### Examples
 
 ```
 GET https://deogen2.mutaframe.com/tools/pseudo?query="breast cancer 2" 
 
-//{"mrna":"NM_000059.3","protein":"NP_000050.2","uniprot":"P51587","name":"BRCA2 DNA repair associated","symbol":"BRCA2"}
+[{"mrna":"NM_000059.4","protein":"NP_000050.3","uniprot":"P51587","name":"BRCA2 DNA repair associated","symbol":"BRCA2"}]
 
 ```
 [**[ Try it ]**](https://deogen2.mutaframe.com/tools/pseudo?query=%22breast%20cancer%202%22)
 
 ```
-GET https://deogen2.mutaframe.com/tools/pseudo?query=TUBA1A
+GET https://deogen2.mutaframe.com/tools/pseudo?query=TUBA1A&isoforms=true
 
-//{"mrna":"NM_001270399.1","protein":"NP_001257328.1","uniprot":"Q71U36","name":"tubulin alpha 1a","symbol":"TUBA1A"}
-
-```
-[**[ Try it ]**](https://deogen2.mutaframe.com/tools/pseudo?query=TUBA1A)
+[{"mrna":"NM_001270399.1","protein":"NP_001257328.1","uniprot":"Q71U36","name":"tubulin alpha 1a","symbol":"TUBA1A"},{"mrna":"NM_001270400.1","protein":"NP_001257329.1","uniprot":"Q71U36","name":"tubulin alpha 1a","symbol":"TUBA1A"},{"mrna":"NM_006009.4","protein":"NP_006000.2","uniprot":"Q71U36","name":"tubulin alpha 1a","symbol":"TUBA1A"}]
 
 ```
+[**[ Try it ]**](https://deogen2.mutaframe.com/tools/pseudo?query=TUBA1A&isoforms=true)
 
-GET https://deogen2.mutaframe.com/tools/pseudo?query=NM_001130916.2
+```
 
-//{"mrna":"NM_001130916.3","protein":"NP_001124388.1","uniprot":"P36897","name":"transforming growth factor beta receptor 1","symbol":"TGFBR1"}
+GET https://deogen2.mutaframe.com/tools/pseudo?query=NM_001130916.2&refseq=true
+
+[{"mrna":"NM_004612.4","protein":"NP_004603.1","uniprot":"P36897","name":"transforming growth factor beta receptor 1","symbol":"TGFBR1"}]
  
 ```
-[**[ Try it ]**](https://deogen2.mutaframe.com/tools/pseudo?query=NM_001130916.2)
+[**[ Try it ]**](https://deogen2.mutaframe.com/tools/pseudo?query=NM_001130916.2&refseq=true)
 
 ### tools/seqfetch?accession=
 
-Provide an accession number and receive back the sequences if the latest refseq version exists. You can provide additional parameters, namely "fields", "response" and "download"
+Provide an accession number and receive back the sequences if the latest refseq version exists. 
+
+#### Query Parameters
+
+|field | desc | default | required |
+| --- | ---| --- | --- |
+|accession | entrez accession | NA | required
+|fields | protein,mRNA | NA | required
+|response | return format | json | optional
+|download | trigger download | false | optional
+|refseq | only refseq | false | optional
+
+#### Return Value
+
+Object
+
+#### Examples
 
 ```
 GET https://deogen2.mutaframe.com/tools/seqfetch?accession=NM_001130916.2&fields=mrna,protein&response=json
@@ -91,9 +122,32 @@ You can add as many sequences as you like, they will be justified to the left fo
 
 ![example tools/orf](https://distreau.com/mutaframe/gifs/mutaframe_orf.gif)
 
+### tools/scorefetch
 
+#### Query Parameters
 
+|field | desc | default | required |
+| --- | ---| --- | --- |
+|uniprot_accession | uniprot accession | NA | required
+|interval | interval | 1,`sequence.length` | optional
+|fields | return fields | NA | required
 
+#### Return Value
+
+Array. Empty object if bad request is received
+
+#### Examples
+
+```
+GET http://localhost/Mutaframe_V2_1_35/tools/scorefetch?uniprot_accession=P19838&fields=pr,ci&interval=1,11,20
+
+[{"name":"M1A","pr":"-0.806","ci":"0.1102190986535408"},{"name":"M1C","pr":"-1.169","ci":"0.1102190986535408"},{"name":"M1D","pr":"-1.563","ci":"0.1102190986535408"},{"name":"M1E","pr":"-1.274","ci":"0.1102190986535408"},{"name":"M1F","pr":"-0.995",....
+
+```
+
+## Status
+
+You can track site and API status at https://status.mutaframe.com/
 
 ## Bug reports and issues related to MutaFrame
 
