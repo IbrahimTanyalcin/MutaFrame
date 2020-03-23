@@ -139,11 +139,12 @@ Array. Empty object if bad request is received
 #### Examples
 
 ```
-GET http://localhost/Mutaframe_V2_1_35/tools/scorefetch?uniprot_accession=P19838&fields=pr,ci&interval=1,11,20
+GET https://deogen2.mutaframe.com/tools/scorefetch?uniprot_accession=P19838&fields=pr,ci&interval=1,11,20
 
 [{"name":"M1A","pr":"-0.806","ci":"0.1102190986535408"},{"name":"M1C","pr":"-1.169","ci":"0.1102190986535408"},{"name":"M1D","pr":"-1.563","ci":"0.1102190986535408"},{"name":"M1E","pr":"-1.274","ci":"0.1102190986535408"},{"name":"M1F","pr":"-0.995",....
 
 ```
+[**[ Try it ]**](https://deogen2.mutaframe.com/tools/scorefetch?uniprot_accession=P19838&fields=pr,ci&interval=1,11,20)
 
 ## Status
 
